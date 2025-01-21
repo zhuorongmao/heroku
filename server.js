@@ -34,7 +34,8 @@ const formatResponse = (text) => {
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
         .replace(/^- (.+)$/gm, '<li>$1</li>') // Markdown bullet points
-        .replace(/<li>(.+?)<\/li>/g, '<ul><li>$1</li></ul>'); // Wrap list items in <ul>
+        .replace(/<li>(.+?)<\/li>/g, '<ul><li>$1</li></ul>') // Wrap list items in <ul>
+        .replace(/### (.+)/g, '<h3>$1</h3>'); // Convert ### headings to <h3>
 };
 
 
