@@ -27,6 +27,16 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 
+// format message.content before sending it back to qualtrics to make the response more readable. 
+const formatResponse = (text) => {
+    return text
+        .replace(/\n/g, '<br>') // Replace newlines with HTML line breaks
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
+        .replace(/^- (.+)$/gm, '<li>$1</li>') // Markdown bullet points
+        .replace(/<li>(.+?)<\/li>/g, '<ul><li>$1</li></ul>'); // Wrap list items in <ul>
+};
+
 
 const openai = new OpenAI();
 // API endpoint to handle chat requests
@@ -49,7 +59,8 @@ app.post('/chat', async (req, res) => {
             messages: prompt,
         });
         //console.log('Prompt sent to OpenAI:',prompt)
-        res.json({ reply: completion.choices[0].message.content });
+        const formattedReply=completion.choices[0].message.content
+        res.json({ reply: formattedReply });
     } catch (error) {
         console.error('Error communicating with OpenAI:', error);
         res.status(500).json({ reply: 'Error occurred while processing your request.' });
