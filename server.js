@@ -30,13 +30,16 @@ app.use(bodyParser.json());
 // format message.content before sending it back to qualtrics to make the response more readable. 
 const formatResponse = (text) => {
     return text
-        .replace(/\n/g, '<br>') // Replace newlines with HTML line breaks
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
-        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
-        .replace(/^- (.+)$/gm, '<li>$1</li>') // Markdown bullet points
-        .replace(/<li>(.+?)<\/li>/g, '<ul><li>$1</li></ul>') // Wrap list items in <ul>
-        .replace(/### (.+)/g, '<h3>$1</h3>'); // Convert ### headings to <h3>
+        .replace(/### (.+)/g, '<h3>$1</h3>') // Convert ### headings to <h3>
+        .replace(/^- (.+)$/gm, '<li>$1</li>') // Convert markdown bullet points to <li>
+        .replace(/(<li>.+?<\/li>)(?!(<\/ul>))/g, '<ul>$1</ul>') // Wrap orphan <li> elements in <ul>
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // Bold (**text**)
+        .replace(/\*(.+?)\*/g, '<em>$1</em>') // Italics (*text*)
+        .replace(/\n{2,}/g, '<br><br>'); // Ensure double line breaks between paragraphs
 };
+
+
+
 
 
 const openai = new OpenAI();
