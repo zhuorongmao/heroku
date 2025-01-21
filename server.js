@@ -8,7 +8,9 @@ import fs from "fs"
 
 // Initialize Express app
 const app = express();
-const port = 3000;
+// use this for local host testing: 
+// const port = 3000;
+const port=process.env.PORT 
 
 // Middleware
 // CORS configuration
