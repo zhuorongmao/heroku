@@ -46,7 +46,7 @@ app.post('/chat', async (req, res) => {
             model: 'gpt-4o-mini',
             messages: prompt,
         });
-        console.log('Prompt sent to OpenAI:',prompt)
+        //console.log('Prompt sent to OpenAI:',prompt)
         res.json({ reply: completion.choices[0].message.content });
     } catch (error) {
         console.error('Error communicating with OpenAI:', error);
