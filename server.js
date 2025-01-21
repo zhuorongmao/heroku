@@ -59,7 +59,7 @@ app.post('/chat', async (req, res) => {
             messages: prompt,
         });
         //console.log('Prompt sent to OpenAI:',prompt)
-        const formattedReply=completion.choices[0].message.content
+        const formattedReply=formatResponse(completion.choices[0].message.content)
         res.json({ reply: formattedReply });
     } catch (error) {
         console.error('Error communicating with OpenAI:', error);
